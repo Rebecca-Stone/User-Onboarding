@@ -3,22 +3,22 @@ import React, { useState, useEffect } from "react";
 //to make GET and POST requests
 import axios from "axios";
 //this is to use the Form inside App
-import Form from "./component/Form";
+import Form from "./Form";
 //this is to use Friend inside App
-import Friend from "./component/Friend";
+import User from "./User";
 //the Shape of the stuff ???
-import schema from "./validation/schema";
+import schema from "../validation/schema";
 //?????
 import * as yup from "yup";
-//just css
-import "./App.css";
+//just a css rest 
+import "./styles/App.css";
 
 //our initial form state
 const initialFormValues = {
   username: "",
   email: "",
   password: "",
-  terms: '',
+  terms: "",
 };
 
 //our initial error state
@@ -30,34 +30,33 @@ const initialFormErrors = {
 
 //initial sign up state
 const initialSignUp = [];
-//????
+//initial submit button state???
 const initialDisabled = true;
 
 function App() {
-  const [friends, setFriends] = useState(initialSignUp);
+  //this slice of state is to keep track of users
+  const [user, setUser] = useState(initialSignUp);
+  //this slice of state is to keep track of values
   const [formValues, setFormValues] = useState(initialFormValues);
+  //this slice of state is to keep track of errors
   const [formErrors, setFormErrors] = useState(initialFormErrors);
+  //this slice of state is to disable the submit???
   const [disabled, setDisabled] = useState(initialDisabled);
 
-  const getFriends = () => {
-    axios
-      .get("https://reqres.in/api/users")
-      .then((res) => {
-        console.log(res.data);
-      })
-      .catch((err) => console.error(err));
-  };
 
-  const postNewFriend = (newFriend) => {
+  //this is to take the values that we just received and post them to the api
+  const postNewUser = (newUser) => {
     axios
-      .post("https://reqres.in/api/users", newFriend)
+      .post("https://reqres.in/api/users", newUser)
       .then((res) => {
-        setFriends([res.data, ...friends]);
+        setUser([res.data, ...user]);
         setFormValues(initialFormValues);
       })
       .catch((err) => console.error(err));
   };
 
+
+  //this is to make sure through yup that everything needed is added
   const validate = (name, value) => {
     yup
       .reach(schema, name)
@@ -66,25 +65,25 @@ function App() {
       .catch((err) => setFormErrors({ ...formErrors, [name]: err.errors[0] }));
   };
 
+
+  //this is to validate the input changes??
   const inputChange = (name, value) => {
     validate(name, value);
     setFormValues({ ...formValues, [name]: value });
   };
 
+  //this is to submit, make and post a new user after creation
   const formSubmit = () => {
-    const newFriend = {
+    const newUser = {
       username: formValues.username.trim(),
       email: formValues.email.trim(),
       password: formValues.password.trim(),
       terms: formValues.terms.trim(),
     };
-    postNewFriend(newFriend);
+    postNewUser(newUser);
   };
 
-  useEffect(() => {
-    getFriends();
-  }, []);
-
+  //this is to change the setDisabled for the submit button??? 
   useEffect(() => {
     schema.isValid(formValues).then((valid) => setDisabled(!valid));
   }, [formValues]);
@@ -92,16 +91,19 @@ function App() {
   return (
     <div>
       <Form
+      //this are the props being passed to form
         values={formValues}
         change={inputChange}
         submit={formSubmit}
         disabled={disabled}
         errors={formErrors}
       />
-      {
-        friends.map((friend, index) => {
+      
+      {//this will make a user appear after being made
+        user.map((user, index) => {
         return( 
-          <Friend key={index} details={friend} />
+          //I chose to just pass the index as the key
+          <User key={index} details={user} />
         )
       })}
     </div>

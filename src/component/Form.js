@@ -1,24 +1,29 @@
 import React from "react";
+//using a septate styling sheet to keep files small
+import "./styles/Form.css";
 
-export default function Form(props) {
+export default function User(props) {
   const { values, submit, change, disabled, errors } = props;
 
+  //this prevents the page from reloading onSubmit
   const onSubmit = (evt) => {
     evt.preventDefault();
     submit();
   };
 
+  //this keeps track of the radio values???
   const onChange = (evt) => {
     const { name, value, type, checked } = evt.target;
-    const valueToUse = type === "checkbox" ? checked : value;
+    const valueToUse = type === "radio" ? checked : value;
     change(name, valueToUse);
   };
+
 
   return (
     <form onSubmit={onSubmit}>
       <div>
-        <h2>Top</h2>
-        <button disabled={disabled}>submit</button>
+        <h2>Join Our Team!</h2>
+        
 
         <div>
           <div>{errors.username}</div>
@@ -29,7 +34,7 @@ export default function Form(props) {
       </div>
 
       <div>
-        <h4>all the inputs</h4>
+        <h4>Sign Up Here</h4>
         <label>
           Username
           <input
@@ -60,6 +65,8 @@ export default function Form(props) {
           />
         </label>
 
+
+{/* i'm having a hard time figuring out the checkboxes */}
         <h3>Terms and Conditions</h3>
         <label>
           Accept
@@ -82,12 +89,7 @@ export default function Form(props) {
           />
         </label>
       </div>
+      <button disabled={disabled}>Submit</button>
     </form>
   )
 }
-
-// - [ ] Name
-// - [ ] Email
-// - [ ] Password
-// - [ ] Terms of Service (checkbox)
-// - [ ] A Submit button to send our form data to the server.
