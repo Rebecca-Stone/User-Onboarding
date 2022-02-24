@@ -13,19 +13,17 @@ export default function User(props) {
 
   //this keeps track of the radio values???
   const onChange = (evt) => {
-    const { name, value, type, checked } = evt.target;
-    const valueToUse = type === "radio" ? checked : value;
+    const { name, value} = evt.target;
+    const valueToUse =  value;
     change(name, valueToUse);
   };
 
-
   return (
     <form onSubmit={onSubmit}>
-      <div>
+      <div className="header">
         <h2>Join Our Team!</h2>
-        
-
-        <div>
+        <h4>Sign Up Here</h4>
+        <div className="errors">
           <div>{errors.username}</div>
           <div>{errors.email}</div>
           <div>{errors.password}</div>
@@ -33,11 +31,11 @@ export default function User(props) {
         </div>
       </div>
 
-      <div>
-        <h4>Sign Up Here</h4>
-        <label>
+      <div className="inputs">
+        <label className="name">
           Username
           <input
+            placeholder="Username"
             value={values.username}
             onChange={onChange}
             name="username"
@@ -45,9 +43,10 @@ export default function User(props) {
           />
         </label>
 
-        <label>
+        <label className="email">
           Email
           <input
+            placeholder="Email"
             value={values.email}
             onChange={onChange}
             name="email"
@@ -55,27 +54,29 @@ export default function User(props) {
           />
         </label>
 
-        <label>
+        <label className="password">
           Password
           <input
+            placeholder="Password"
             value={values.password}
             onChange={onChange}
             name="password"
             type="password"
           />
         </label>
+      </div>
 
-
-{/* i'm having a hard time figuring out the checkboxes */}
+      {/* i'm having a hard time figuring out the checkboxes */}
+      <div className="terms">
         <h3>Terms and Conditions</h3>
         <label>
           Accept
           <input
             type="radio"
             onChange={onChange}
-            value='YES'
+            value="accept"
             name="terms"
-            checked={values.terms === 'YES'}
+            checked={values.terms === "accept"}
           />
         </label>
         <label>
@@ -83,13 +84,15 @@ export default function User(props) {
           <input
             type="radio"
             onChange={onChange}
-            value='NO'
+            value="decline"
             name="terms"
-            checked={values.terms === 'NO'}
+            checked={values.terms === "decline"}
           />
         </label>
       </div>
-      <button disabled={disabled}>Submit</button>
+      <div className="submit">
+        <button disabled={disabled}>Submit</button>
+      </div>
     </form>
-  )
+  );
 }

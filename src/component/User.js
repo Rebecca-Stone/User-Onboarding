@@ -2,7 +2,7 @@ import React from "react";
 
 //will probably use a styled component for this
 
-function Friend({ details }) {
+function User({ details }) {
   if (!details) {
     return <h3>Finding Your Friends</h3>;
   }
@@ -15,4 +15,4 @@ function Friend({ details }) {
   );
 }
 
-export default Friend;
+export default User;

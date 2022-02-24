@@ -18,7 +18,7 @@ const schema = yup.object().shape({
         .min(4, 'Password needs to be at least 4 letters long'),
     terms: yup
         .string()
-        .oneOf(['YES', 'NO'], 'please accept or decline')
+        .oneOf(["accept", "decline"], 'please accept or decline')
 })
 
 export default schema;

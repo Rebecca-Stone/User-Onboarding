@@ -10,7 +10,7 @@ import User from "./User";
 import schema from "../validation/schema";
 //?????
 import * as yup from "yup";
-//just a css rest 
+//just a css rest
 import "./styles/App.css";
 
 //our initial form state
@@ -26,6 +26,7 @@ const initialFormErrors = {
   username: "",
   email: "",
   password: "",
+  terms: "",
 };
 
 //initial sign up state
@@ -55,7 +56,6 @@ function App() {
       .catch((err) => console.error(err));
   };
 
-
   //this is to make sure through yup that everything needed is added
   const validate = (name, value) => {
     yup
@@ -64,7 +64,6 @@ function App() {
       .then(() => setFormErrors({ ...formErrors, [name]: "" }))
       .catch((err) => setFormErrors({ ...formErrors, [name]: err.errors[0] }));
   };
-
 
   //this is to validate the input changes??
   const inputChange = (name, value) => {
@@ -78,12 +77,11 @@ function App() {
       username: formValues.username.trim(),
       email: formValues.email.trim(),
       password: formValues.password.trim(),
-      terms: formValues.terms.trim(),
     };
     postNewUser(newUser);
   };
 
-  //this is to change the setDisabled for the submit button??? 
+  //this is to change the setDisabled for the submit button???
   useEffect(() => {
     schema.isValid(formValues).then((valid) => setDisabled(!valid));
   }, [formValues]);
@@ -91,21 +89,23 @@ function App() {
   return (
     <div>
       <Form
-      //this are the props being passed to form
+        //this are the props being passed to form
         values={formValues}
         change={inputChange}
         submit={formSubmit}
         disabled={disabled}
         errors={formErrors}
       />
-      
-      {//this will make a user appear after being made
+
+      {
+        //this will make a user appear after being made
         user.map((user, index) => {
-        return( 
-          //I chose to just pass the index as the key
-          <User key={index} details={user} />
-        )
-      })}
+          return (
+            //I chose to just pass the index as the key
+            <User key={index} details={user} />
+          );
+        })
+      }
     </div>
   );
 }
